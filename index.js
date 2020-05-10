@@ -115,6 +115,12 @@ function prepareFiles(files, excludeFiles, buildRoot) {
  * @param  {Function} cb         callback function to be executed when the task is done
  */
 function buildRpm(buildRoot, specFile, rpmDest, execOpts, cb) {
+  // Sanitize buildRoot, specFile, rpmDest, execOpts
+  buildRoot = buildRoot.replace(/(["\s'$`\*;&])/g,'\\$1');
+  specFile = specFile.replace(/(["\s'$`\*;&])/g,'\\$1');
+  rpmDest = rpmDest.replace(/(["\s'$`\*;&])/g,'\\$1');
+  execOpts = execOpts.replace(/(["\s'$`\*;&])/g,'\\$1');
+
   // Build the RPM package.
   var cmd = [
     'rpmbuild',
